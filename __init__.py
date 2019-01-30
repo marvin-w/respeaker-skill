@@ -15,7 +15,6 @@
 import time
 from pixel_ring import pixel_ring
 from gpiozero import LED
-import os
 from mycroft import MycroftSkill, intent_file_handler
 from mycroft.messagebus.message import Message
 from mycroft.util.log import LOG
