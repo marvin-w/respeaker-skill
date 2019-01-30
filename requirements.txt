@@ -1,2 +1,2 @@
 pixel-ring
-evdev
+gpiozero
