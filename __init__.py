@@ -27,10 +27,10 @@ class ReSpeaker_4mic_hat(MycroftSkill):
     def initialize(self):
         LOG.debug("initialising")
 
-	power = LED(5)
-	power.on()
+        power = LED(5)
+        power.on()
 
-	pixel_ring.set_brightness(10)
+        pixel_ring.set_brightness(10)
         pixel_ring.wakeup()
 
         self.add_event('recognizer_loop:record_begin',
