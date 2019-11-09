@@ -26,9 +26,9 @@ class ReSpeaker_4mic_hat(MycroftSkill):
     def __init__(self):
         MycroftSkill.__init__(self)
 
-        self.main_blue = 0x22A7F0
-        self.tertiary_blue = 0x4DE0FF
-        self.tertiary_green = 0x40DBB0
+        #self.main_blue = 0x22A7F0
+        #self.tertiary_blue = 0x4DE0FF
+        #self.tertiary_green = 0x40DBB0
 
         power = LED(5)
         power.on()
@@ -73,7 +73,7 @@ class ReSpeaker_4mic_hat(MycroftSkill):
 
     def handle_listener_started(self, message):
         LOG.debug("wakeup")
-        pixel_ring.set_color_palette(self.main_blue, self.main_blue)
+        #pixel_ring.set_color_palette(self.main_blue, self.main_blue)
         pixel_ring.listen()
 
     def handle_listener_ended(self, message):
@@ -87,7 +87,7 @@ class ReSpeaker_4mic_hat(MycroftSkill):
 
     def on_handle_started(self, message):
         LOG.debug("think")
-        pixel_ring.set_color_palette(self.main_blue, self.tertiary_green)
+        #pixel_ring.set_color_palette(self.main_blue, self.tertiary_green)
         pixel_ring.think()
 
     def on_handle_complete(self, message):
@@ -96,7 +96,7 @@ class ReSpeaker_4mic_hat(MycroftSkill):
 
     def on_handler_audio_start(self, message):
         LOG.debug("speak")
-        pixel_ring.set_color_palette(self.main_blue, self.tertiary_blue)
+        #pixel_ring.set_color_palette(self.main_blue, self.tertiary_blue)
         pixel_ring.speak()
 
     def on_handler_audio_end(self, message):
