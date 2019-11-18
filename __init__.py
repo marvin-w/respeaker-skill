@@ -15,7 +15,8 @@
 import time
 
 from mycroft.messagebus.message import Message
-from mycroft.skills.core import MycroftSkill
+from mycroft.skills.core import MycroftSkill, intent_handler
+from adapt.intent import IntentBuilder
 from mycroft.util.log import LOG
 from mycroft import intent_file_handler
 
@@ -23,91 +24,75 @@ from pixel_ring import pixel_ring
 from gpiozero import LED
 
 class ReSpeaker_4mic_hat(MycroftSkill):
+    
     def __init__(self):
-        MycroftSkill.__init__(self)
+        super(ReSpeaker_4mic_hat, self).__init__(name="ReSpeaker_4mic_hat")
 
-        #self.main_blue = 0x22A7F0
-        #self.tertiary_blue = 0x4DE0FF
-        #self.tertiary_green = 0x40DBB0
-
-        power = LED(5)
+    def initialize(self):
+	power = LED(5)
         power.on()
         pixel_ring.set_brightness(10)
 
-    def initialize(self):
-        LOG.debug("initialising")
         pixel_ring.wakeup()
-        try:
-            self.add_event('recognizer_loop:record_begin',
-                            self.handle_listener_started)
-            self.add_event('recognizer_loop:record_end',
-                            self.handle_listener_ended)
-            self.add_event('mycroft.speech.recognition.unknown',
-                            self.handle_failed_stt)
+	self.enable()
 
-            self.bus.on('mycroft.skill.handler.start',
-                        self.on_handler_started)
-            self.bus.on('mycroft.skill.handler.complete',
-                        self.on_handler_complete)
+    def enable(self):
+        LOG.debug("initializing")
 
-            self.bus.on('recognizer_loop:audio_output_start',
-                         self.on_handler_audio_start)
-            self.bus.on('recognizer_loop:audio_output_end',
-                         self.handle_listener_off)
-        except Exception as e:
-            LOG.debug("exception while setting up pixel_ring: {}".format(e))
-        finally:
-            pixel_ring.off()
+        self.add_event('recognizer_loop:record_begin',
+                        self.handle_listener_wakeup)
+        self.add_event('recognizer_loop:record_end',
+                        self.handle_listener_off)
 
-    def shutdown(self):
-        LOG.debug("shutdown")
-        self.bus.remove('mycroft.skill.handler.start',
-                         self.on_handler_started)
-        self.bus.remove('mycroft.skill.handler.complete',
-                         self.on_handler_complete)
-        self.bus.remove('recognizer_loop:audio_output_start',
-                         self.on_handler_audio_start)
-        self.bus.remove('recognizer_loop:audio_output_end',
-                         self.on_handler_audio_end)
+        self.add_event('mycroft.skill.handler.start',
+                        self.handler_listener_think)
+        self.add_event('mycroft.skill.handler.complete',
+                        self.handler_listener_off)
+
+        self.add_event('recognizer_loop:audio_output_start',
+                        self.handler_listener_speak)
+        self.add_event('recognizer_loop:audio_output_end',
+                        self.handle_listener_off)
+
         pixel_ring.off()
 
-    def handle_listener_started(self, message):
+    def disable(self):
+        LOG.debug("shutdown")
+        self.remove_event('recognizer_loop:record_begin')
+        self.remove_event('recognizer_loop:record_end')
+        self.remove_event('recognizer_loop:audio_output_start')
+        self.remove_event('recognizer_loop:audio_output_end')
+        self.remove_event('mycroft.skill.handler.start')
+        self.remove_event('mycroft.skill.handler.complete')
+
+     def shutdown(self):
+        pixel_ring.off()
+
+    def handle_listener_wakeup(self, message):
         LOG.debug("wakeup")
-        #pixel_ring.set_color_palette(self.main_blue, self.main_blue)
         pixel_ring.listen()
 
-    def handle_listener_ended(self, message):
+    def handle_listener_off(self, message):
         LOG.debug("off")
         pixel_ring.off()
 
-    def handle_failed_stt(self, message):
-        LOG.debug("unkown")
-        pixel_ring.off()
-
-
-    def on_handle_started(self, message):
+    def handle_listener_think(self, message):
         LOG.debug("think")
-        #pixel_ring.set_color_palette(self.main_blue, self.tertiary_green)
         pixel_ring.think()
 
-    def on_handle_complete(self, message):
-        LOG.debug("complete")
-        pixel_ring.off()
-
-    def on_handler_audio_start(self, message):
+    def handler_listener_speak(self, message):
         LOG.debug("speak")
-        #pixel_ring.set_color_palette(self.main_blue, self.tertiary_blue)
         pixel_ring.speak()
 
-    def on_handler_audio_end(self, message):
-        LOG.debug("stop")
-        pixel_ring.off()
+    @intent_handler(IntentBuilder("").require("EnablePixelRing"))
+    def handle_enable_pixel_ring_intent(self, message):
+        self.enable()
+        self.speak_dialog("EnablePixelRing")
 
-
-    @intent_file_handler('ring.pixel.respeaker.intent')
-    def handle_ring_pixel_respeaker(self, message):
-        self.speak_dialog('ring.pixel.respeaker')
-
+    @intent_handler(IntentBuilder("").require("DisablePixelRing"))
+    def handle_disable_pixel_ring_intent(self, message):
+        self.disable()
+        self.speak_dialog("DisablePixelRing")
 
 def create_skill():
     return ReSpeaker_4mic_hat()
