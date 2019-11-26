@@ -29,15 +29,15 @@ class ReSpeaker_4mic_hat(MycroftSkill):
 		super(ReSpeaker_4mic_hat, self).__init__(name="ReSpeaker_4mic_hat")
 
 	def initialize(self):
-		power = LED(5)
-		power.on()
+		self.power = LED(5)
+		self.power.on()
 		pixel_ring.set_brightness(10)
 
 		pixel_ring.wakeup()
 		self.enable()
 
 	def enable(self):
-		LOG.debug("initializing")
+		self.log.info("Pixel Ring: Initializing...")
 
 		self.add_event('recognizer_loop:wakeword',
 				self.handle_listener_wakeup)
@@ -57,7 +57,7 @@ class ReSpeaker_4mic_hat(MycroftSkill):
 		pixel_ring.off()
 
 	def disable(self):
-		LOG.debug("shutdown")
+		self.log.info("Pixel Ring: Disabling...")
 		self.remove_event('recognizer_loop:wakeup')
 		self.remove_event('recognizer_loop:record_end')
 		self.remove_event('recognizer_loop:audio_output_start')
@@ -69,19 +69,19 @@ class ReSpeaker_4mic_hat(MycroftSkill):
 		pixel_ring.off()
 
 	def handle_listener_wakeup(self, message):
-		LOG.debug("wakeup")
+		self.log.info("Pixel Ring: Wakeup")
 		pixel_ring.listen()
 
 	def handle_listener_off(self, message):
-		LOG.debug("off")
+		self.log.info("Pixel Ring: Off")
 		pixel_ring.off()
 
 	def handle_listener_think(self, message):
-		LOG.debug("think")
+		self.log.info("Pixel Ring: Think")
 		pixel_ring.think()
 
 	def handler_listener_speak(self, message):
-		LOG.debug("speak")
+		self.log.info("Pixel Ring: Speak")
 		pixel_ring.speak()
 
 	@intent_handler(IntentBuilder("").require("EnablePixelRing"))
