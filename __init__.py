@@ -46,9 +46,9 @@ class ReSpeaker_4mic_hat(MycroftSkill):
 				self.handle_listener_off)
 
 		self.add_event('mycroft.skill.handler.start',
-				self.handler_listener_think)
+				self.handle_listener_think)
 		self.add_event('mycroft.skill.handler.complete',
-				self.handler_listener_off)
+				self.handle_listener_off)
 
 		self.add_event('recognizer_loop:audio_output_start',
 				self.handler_listener_speak)
