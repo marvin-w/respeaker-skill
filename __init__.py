@@ -10,12 +10,10 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-# All credits go to domcross (Github https://github.com/domcross)
 from mycroft.skills.core import MycroftSkill, intent_handler
 from adapt.intent import IntentBuilder
 
-from respeaker import obtain_strategy
-from respeaker import RespeakerStrategy
+from respeaker import obtain_strategy, RespeakerStrategy
 
 
 class ReSpeaker(MycroftSkill):
