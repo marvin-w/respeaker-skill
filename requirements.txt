@@ -1,4 +1,6 @@
 spidev
 pyusb
 gpiozero
+RPi.GPIO
+evdev
 git+https://github.com/respeaker/pixel_ring.git
