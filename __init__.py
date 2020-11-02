@@ -24,7 +24,7 @@ class ReSpeaker(MycroftSkill):
 
     def initialize(self):
         self.log.info("Pixel Ring: Initializing")
-        self.strategy = obtain_strategy('echo', self.bus)
+        self.strategy = obtain_strategy(self.bus, 'echo')
 
         self.strategy.startup()
 
