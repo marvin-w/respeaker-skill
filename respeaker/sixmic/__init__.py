@@ -15,12 +15,6 @@ class Respeaker6Mic(Respeaker4Mic):
         super().__init__(bus, pattern)
         self.button = 26
 
-    def startup(self):
-        """Startup 6mic hat."""
-        super().startup()
-        GPIO.setmode(GPIO.BCM)
-        GPIO.setup(self.button, GPIO.IN)
-
     def supports_button(self) -> bool:
         """Supports button presses."""
         return True
@@ -28,6 +22,9 @@ class Respeaker6Mic(Respeaker4Mic):
     def button_cb(self) -> None:
         """Button callback."""
         longpress_threshold = 2
+
+        GPIO.setmode(GPIO.BCM)
+        GPIO.setup(self.button, GPIO.IN)
 
         if GPIO.input(self.button):
             pressed_time = time.time()
