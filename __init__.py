@@ -19,7 +19,7 @@ from .respeaker import obtain_strategy, RespeakerStrategy
 class ReSpeaker(MycroftSkill):
 
     def __init__(self):
-        super(ReSpeaker, self).__init__(name="ReSpeaker")
+        MycroftSkill.__init__(self)
         self.strategy: RespeakerStrategy = None
 
     def initialize(self):

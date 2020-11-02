@@ -2,7 +2,6 @@
 import time
 
 import RPi.GPIO as GPIO
-from gpiozero import LED
 from mycroft import Message
 
 from ..fourmic import Respeaker4Mic
@@ -29,11 +28,10 @@ class Respeaker6Mic(Respeaker4Mic):
     def button_cb(self) -> None:
         """Button callback."""
         longpress_threshold = 2
-        is_active = GPIO.input(self.button)
 
-        if is_active:
+        if GPIO.input(self.button):
             pressed_time = time.time()
-            while is_active:
+            while GPIO.input(self.button):
                 time.sleep(0.2)
             pressed_time = time.time() - pressed_time
             if pressed_time < longpress_threshold:
