@@ -17,7 +17,7 @@ class Respeaker6Mic(Respeaker4Mic):
 
     def supports_button(self) -> bool:
         """Supports button presses."""
-        return False
+        return True
 
     def button_cb(self) -> None:
         """Button callback."""

@@ -49,7 +49,7 @@ class ReSpeaker(MycroftSkill):
                        self.handle_listener_off)
 
         if self.strategy.supports_button():
-            self.schedule_repeating_event(self.strategy.button_cb, None, 0.1,
+            self.schedule_repeating_event(self.strategy.button_cb, None, 0.5,
                                           name='respeaker_button_cb')
 
         self.strategy.off()
