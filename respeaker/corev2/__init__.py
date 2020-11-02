@@ -23,7 +23,7 @@ class CoreV2(RespeakerStrategy):
         try:
             self.user_key = InputDevice("/dev/input/event0")
         except Exception as e:
-            LOG.debug("exception while reading InputDevice: {}".format(e))
+            LOG.warning("exception while reading InputDevice: {}".format(e))
 
     def supports_button(self) -> bool:
         """Supports button."""
