@@ -6,8 +6,8 @@ from evdev import InputDevice
 from mycroft import Message
 from pixel_ring import pixel_ring
 
-from respeaker.corev2 import mraa
-from respeaker.strategy import RespeakerStrategy
+from . import mraa
+from .. import RespeakerStrategy
 from mycroft.util.log import LOG
 
 

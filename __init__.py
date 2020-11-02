@@ -13,7 +13,7 @@
 from mycroft.skills.core import MycroftSkill, intent_handler
 from adapt.intent import IntentBuilder
 
-from respeaker import obtain_strategy, RespeakerStrategy
+from .respeaker import obtain_strategy, RespeakerStrategy
 
 
 class ReSpeaker(MycroftSkill):

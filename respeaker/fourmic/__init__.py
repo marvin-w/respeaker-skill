@@ -2,7 +2,7 @@
 from gpiozero import LED
 from pixel_ring import pixel_ring
 
-from respeaker.strategy import RespeakerStrategy
+from ..strategy import RespeakerStrategy
 from mycroft.util.log import LOG
 
 

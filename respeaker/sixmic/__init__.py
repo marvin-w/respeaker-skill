@@ -5,7 +5,7 @@ import RPi.GPIO as GPIO
 from gpiozero import LED
 from mycroft import Message
 
-from respeaker import Respeaker4Mic
+from .. import Respeaker4Mic
 
 
 class Respeaker6Mic(Respeaker4Mic):

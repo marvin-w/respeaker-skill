@@ -1,10 +1,10 @@
 """ReSpeaker library."""
 import subprocess
 
-from respeaker.corev2 import CoreV2
-from respeaker.fourmic import Respeaker4Mic
-from respeaker.sixmic import Respeaker6Mic
-from respeaker.strategy import RespeakerStrategy
+from .corev2 import CoreV2
+from .fourmic import Respeaker4Mic
+from .sixmic import Respeaker6Mic
+from .strategy import RespeakerStrategy
 
 
 def obtain_strategy(pattern, bus) -> RespeakerStrategy:
@@ -22,5 +22,6 @@ def obtain_strategy(pattern, bus) -> RespeakerStrategy:
     if 'respeaker' in result:
         return CoreV2(pattern, bus)
 
+    #  TODO: We should catch this and speak a dialog to the user in this case.
     raise NotImplementedError("Your system does not support this skill. Please make sure you installed all neccessary "
                               "drivers.")
