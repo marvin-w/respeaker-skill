@@ -14,7 +14,6 @@ class Respeaker6Mic(Respeaker4Mic):
     def __init__(self, bus, pattern) -> None:
         """Init."""
         super().__init__(bus, pattern)
-        self.power = LED(5)
         self.button = 26
 
     def startup(self):
