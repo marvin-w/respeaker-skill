@@ -3,10 +3,10 @@ Allows using any respeaker Hat LED pixel ring or respeaker core v2 LED pixel rin
 
 ## Description
 This skills supports the led pixel ring of the following seeedstudio products:
- * ReSpeaker 2-Mic HAT.
  * ReSpeaker 4-Mic HAT.
  * ReSpeaker 6-Mic HAT including user button.
- * ReSpeaker core v2 including user button.
+ * ReSpeaker Core v2 including user button.
+ * ReSpeaker Mic Array v2.0
 
 ## Examples
  - "Enable pixel ring"
