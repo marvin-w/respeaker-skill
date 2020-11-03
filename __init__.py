@@ -64,7 +64,7 @@ class ReSpeaker(MycroftSkill):
         self.remove_event('mycroft.skill.handler.complete')
 
         if self.strategy.supports_button():
-            self.cancel_scheduled_event("respeaker_button_cb")
+            self.cancel_all_repeating_events()
 
     def shutdown(self):
         self.log.info("Pixel Ring: Shutdown")

@@ -1,7 +1,5 @@
 """Support for ReSpeaker 6-Mics Hat."""
-import time
-
-import RPi.GPIO as GPIO
+from gpiozero import Button
 from mycroft import Message
 
 from ..fourmic import Respeaker4Mic
@@ -13,26 +11,23 @@ class Respeaker6Mic(Respeaker4Mic):
     def __init__(self, bus, pattern) -> None:
         """Init."""
         super().__init__(bus, pattern)
-        self.button = 26
+        self.button = Button(26, hold_time=2)
+        self.init_button()
 
     def supports_button(self) -> bool:
-        """Supports button presses."""
-        return True
+        """Supports button presses via reoccuring event."""
+        return False
 
-    def button_cb(self) -> None:
-        """Button callback."""
-        longpress_threshold = 2
+    def init_button(self):
+        """Init Button."""
+        def held():
+            """Executed when held for 2 seconds."""
+            self.bus.emit(Message("mycroft.stop"))
 
-        GPIO.setmode(GPIO.BCM)
-        GPIO.setup(self.button, GPIO.IN)
+        def released():
+            """Executed when released."""
+            self.bus.emit(Message("mycroft.mic.listen"))
 
-        if GPIO.input(self.button):
-            pressed_time = time.time()
-            while GPIO.input(self.button):
-                time.sleep(0.2)
-            pressed_time = time.time() - pressed_time
-            if pressed_time < longpress_threshold:
-                self.bus.emit(Message("mycroft.mic.listen"))
-            else:
-                self.bus.emit(Message("mycroft.stop"))
+        self.button.when_held = held
+        self.button.when_activated = released
 
