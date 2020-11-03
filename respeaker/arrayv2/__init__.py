@@ -12,11 +12,14 @@ class RespeakerArrayV2(RespeakerStrategy):
         """Init."""
         super().__init__(bus, pattern)
 
+    def supports_pattern(self) -> bool:
+        """Initialise pattern support."""
+        return False
+
     def startup(self):
         """Startup of the LED pixel ring."""
         LOG.debug("[RespeakerArrayV2] Start LED pixel ring.")
         pixel_ring.set_brightness(10)
-        pixel_ring.change_pattern(self.pattern)
         pixel_ring.wakeup()
 
     def shutdown(self):
