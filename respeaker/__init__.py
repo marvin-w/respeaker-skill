@@ -20,7 +20,7 @@ def obtain_strategy(pattern, bus) -> RespeakerStrategy:
         from .corev2 import CoreV2
         return CoreV2(pattern, bus)
 
-    result = subprocess.check_call('arecord -L | grep hw', shell=True)
+    result = subprocess.run(['arecord', '-L'], stdout=subprocess.PIPE).stdout.decode('utf-8')
     if 'ArrayUAC10' in result:
         from .arrayv2 import RespeakerArrayV2
         return RespeakerArrayV2(pattern, bus)
